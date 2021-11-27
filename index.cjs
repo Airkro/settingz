@@ -1,6 +1,7 @@
 'use strict';
 
 const { resolve } = require('path');
+const { readFileSync } = require('fs');
 
 const CWD = process.cwd();
 
@@ -39,8 +40,17 @@ function reaching(moduleId, fallback = {}) {
   }
 }
 
+function readJson(file) {
+  try {
+    const io = readFileSync(file, 'utf-8');
+    return JSON.parse(io);
+  } catch {
+    return {};
+  }
+}
+
 function getPkg(path, fallback = {}) {
-  const pkg = reaching('./package.json');
+  const pkg = readJson(normalize('./package.json'));
   if (path) {
     const { [path]: config = fallback } = pkg;
     return config;
