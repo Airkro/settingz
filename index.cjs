@@ -42,7 +42,7 @@ function reaching(moduleId, fallback = {}) {
 
 function readJson(file) {
   try {
-    const io = readFileSync(file, 'utf-8');
+    const io = readFileSync(normalize(file), 'utf-8');
     return JSON.parse(io);
   } catch {
     return {};
@@ -50,7 +50,7 @@ function readJson(file) {
 }
 
 function getPkg(path, fallback = {}) {
-  const pkg = readJson(normalize('./package.json'));
+  const pkg = readJson('./package.json');
   if (path) {
     const { [path]: config = fallback } = pkg;
     return config;
@@ -58,4 +58,4 @@ function getPkg(path, fallback = {}) {
   return pkg;
 }
 
-module.exports = { isReachable, reaching, getPkg };
+module.exports = { isReachable, reaching, getPkg, readJson };
