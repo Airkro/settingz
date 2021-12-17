@@ -13,13 +13,13 @@ function isSafeError(error) {
   );
 }
 
-function normalize(moduleId) {
-  return moduleId.startsWith('.') ? resolve(CWD, moduleId) : moduleId;
+function normalizePath(moduleId, root = CWD) {
+  return moduleId.startsWith('.') ? resolve(root, moduleId) : moduleId;
 }
 
 function isReachable(moduleId) {
   try {
-    require.resolve(normalize(moduleId));
+    require.resolve(normalizePath(moduleId));
     return true;
   } catch (error) {
     if (isSafeError(error)) {
@@ -31,7 +31,7 @@ function isReachable(moduleId) {
 
 function reaching(moduleId, fallback = {}) {
   try {
-    return require(normalize(moduleId));
+    return require(normalizePath(moduleId));
   } catch (error) {
     if (isSafeError(error)) {
       return fallback;
@@ -42,7 +42,7 @@ function reaching(moduleId, fallback = {}) {
 
 function readJson(file) {
   try {
-    const io = readFileSync(normalize(file), 'utf-8');
+    const io = readFileSync(normalizePath(file), 'utf-8');
     return JSON.parse(io);
   } catch {
     return {};
@@ -58,4 +58,26 @@ function getPkg(path, fallback = {}) {
   return pkg;
 }
 
-module.exports = { isReachable, reaching, getPkg, readJson };
+function haveDependencies(name) {
+  return name in getPkg('dependencies');
+}
+
+function haveDevDependencies(name) {
+  return name in getPkg('devDependencies');
+}
+
+function haveLocalDependencies(name) {
+  const { dependencies, devDependencies } = getPkg();
+  return name in dependencies || name in devDependencies;
+}
+
+module.exports = {
+  haveDependencies,
+  haveDevDependencies,
+  haveLocalDependencies,
+  normalizePath,
+  isReachable,
+  reaching,
+  getPkg,
+  readJson,
+};
