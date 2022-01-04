@@ -1,7 +1,7 @@
 'use strict';
 
-const { resolve } = require('path');
-const { readFileSync } = require('fs');
+const { resolve, isAbsolute } = require('path');
+const { readFileSync, statSync } = require('fs');
 
 const CWD = process.cwd();
 
@@ -14,18 +14,20 @@ function isSafeError(error) {
 }
 
 function normalizePath(moduleId, root = CWD) {
-  return moduleId.startsWith('.') ? resolve(root, moduleId) : moduleId;
+  return moduleId.startsWith('.')
+    ? resolve(root, moduleId)
+    : isAbsolute(moduleId)
+    ? moduleId
+    : require.resolve(moduleId);
 }
 
 function isReachable(moduleId) {
   try {
-    require.resolve(normalizePath(moduleId));
+    statSync(normalizePath(moduleId));
+
     return true;
-  } catch (error) {
-    if (isSafeError(error)) {
-      return false;
-    }
-    throw error;
+  } catch {
+    return false;
   }
 }
 
@@ -36,6 +38,7 @@ function reaching(moduleId, fallback = {}) {
     if (isSafeError(error)) {
       return fallback;
     }
+
     throw error;
   }
 }
@@ -43,6 +46,7 @@ function reaching(moduleId, fallback = {}) {
 function readJson(file) {
   try {
     const io = readFileSync(normalizePath(file), 'utf-8');
+
     return JSON.parse(io);
   } catch {
     return {};
@@ -51,10 +55,13 @@ function readJson(file) {
 
 function getPkg(path, fallback = {}) {
   const pkg = readJson('./package.json');
+
   if (path) {
     const { [path]: config = fallback } = pkg;
+
     return config;
   }
+
   return pkg;
 }
 
@@ -68,6 +75,7 @@ function haveDevDependencies(name) {
 
 function haveLocalDependencies(name) {
   const { dependencies, devDependencies } = getPkg();
+
   return name in dependencies || name in devDependencies;
 }
 
