@@ -74,7 +74,7 @@ function haveDevDependencies(name) {
 }
 
 function haveLocalDependencies(name) {
-  const { dependencies, devDependencies } = getPkg();
+  const { dependencies = {}, devDependencies = {} } = getPkg();
 
   return name in dependencies || name in devDependencies;
 }
