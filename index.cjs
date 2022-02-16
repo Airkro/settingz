@@ -2,6 +2,7 @@
 
 const { resolve, isAbsolute } = require('path');
 const { readFileSync, statSync } = require('fs');
+const { createRequire } = require('module');
 
 const CWD = process.cwd();
 
@@ -13,12 +14,14 @@ function isSafeError(error) {
   );
 }
 
+const Require = createRequire();
+
 function normalizePath(moduleId, root = CWD) {
   return moduleId.startsWith('.')
     ? resolve(root, moduleId)
     : isAbsolute(moduleId)
     ? moduleId
-    : require.resolve(moduleId);
+    : Require.resolve(moduleId);
 }
 
 function isReachable(moduleId) {
@@ -33,7 +36,7 @@ function isReachable(moduleId) {
 
 function reaching(moduleId, fallback = {}) {
   try {
-    return require(normalizePath(moduleId));
+    return Require(normalizePath(moduleId));
   } catch (error) {
     if (isSafeError(error)) {
       return fallback;
