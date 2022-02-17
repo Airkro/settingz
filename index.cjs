@@ -14,7 +14,7 @@ function isSafeError(error) {
   );
 }
 
-const Require = createRequire();
+const Require = createRequire(__filename);
 
 function normalizePath(moduleId, root = CWD) {
   return moduleId.startsWith('.')
