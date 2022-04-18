@@ -1,8 +1,7 @@
-'use strict';
-
-const { resolve, isAbsolute } = require('path');
-const { readFileSync, statSync } = require('fs');
-const { createRequire } = require('module');
+import { readFileSync, statSync } from 'fs';
+import { createRequire } from 'module';
+import { isAbsolute, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
 const CWD = process.cwd();
 
@@ -10,11 +9,11 @@ function isSafeError(error) {
   return (
     error.code === 'MODULE_NOT_FOUND' &&
     error.requireStack &&
-    error.requireStack[0] === __filename
+    error.requireStack[0] === fileURLToPath(import.meta.url)
   );
 }
 
-const Require = createRequire(__filename);
+const Require = createRequire(import.meta.url);
 
 function normalizePath(moduleId, root = CWD) {
   return moduleId.startsWith('.')
@@ -82,13 +81,13 @@ function haveLocalDependencies(name) {
   return name in dependencies || name in devDependencies;
 }
 
-module.exports = {
+export {
+  getPkg,
   haveDependencies,
   haveDevDependencies,
   haveLocalDependencies,
-  normalizePath,
   isReachable,
+  normalizePath,
   reaching,
-  getPkg,
   readJson,
 };

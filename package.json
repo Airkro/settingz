@@ -1,6 +1,6 @@
 {
   "name": "settingz",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "Dead simple config loader",
   "license": "MIT",
   "author": {
@@ -20,19 +20,26 @@
   "bugs": {
     "url": "https://github.com/airkro/settingz/issues"
   },
+  "module": "index.mjs",
   "main": "index.cjs",
-  "files": [],
+  "exports": {
+    "import": "./index.mjs",
+    "require": "./index.cjs"
+  },
+  "files": [
+    "index.mjs"
+  ],
   "scripts": {
     "lint:staged": "nice-move lint staged",
     "prepare": "git config core.hooksPath .githooks"
   },
   "devDependencies": {
-    "@nice-move/cli": "^0.7.0",
-    "@nice-move/eslint-config-base": "^0.6.1",
-    "@nice-move/prettier-config": "^0.5.2",
-    "eslint": "^8.9.0",
-    "garou": "^0.4.0",
-    "prettier": "^2.5.1"
+    "@nice-move/cli": "^0.7.1",
+    "@nice-move/eslint-config-base": "^0.6.7",
+    "@nice-move/prettier-config": "^0.5.4",
+    "eslint": "^8.13.0",
+    "garou": "^0.4.6",
+    "prettier": "^2.6.2"
   },
   "engines": {
     "node": "^12.22.0 || ^14.17.0 || >=16.13.0"
