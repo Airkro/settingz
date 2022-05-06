@@ -1,6 +1,6 @@
 {
   "name": "settingz",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Dead simple config loader",
   "license": "MIT",
   "author": {
@@ -23,8 +23,11 @@
   "module": "index.mjs",
   "main": "index.cjs",
   "exports": {
-    "import": "./index.mjs",
-    "require": "./index.cjs"
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    },
+    "./*": "./*"
   },
   "files": [
     "index.mjs"
@@ -34,15 +37,15 @@
     "prepare": "git config core.hooksPath .githooks"
   },
   "devDependencies": {
-    "@nice-move/cli": "^0.7.1",
-    "@nice-move/eslint-config-base": "^0.6.7",
+    "@nice-move/cli": "^0.7.2",
+    "@nice-move/eslint-config-base": "^0.6.9",
     "@nice-move/prettier-config": "^0.5.4",
-    "eslint": "^8.13.0",
+    "eslint": "^8.14.0",
     "garou": "^0.4.6",
     "prettier": "^2.6.2"
   },
   "engines": {
-    "node": "^12.22.0 || ^14.17.0 || >=16.13.0"
+    "node": "^12.22.0 || ^14.17.0 || ^16.13.0 || >=18.0.0"
   },
   "publishConfig": {
     "access": "public",
