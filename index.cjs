@@ -1,8 +1,8 @@
 'use strict';
 
-const { resolve, isAbsolute } = require('path');
-const { readFileSync, statSync } = require('fs');
-const { createRequire } = require('module');
+const { resolve, isAbsolute } = require('node:path');
+const { readFileSync, statSync } = require('node:fs');
+const { createRequire } = require('node:module');
 
 const CWD = process.cwd();
 
@@ -20,8 +20,8 @@ function normalizePath(moduleId, root = CWD) {
   return moduleId.startsWith('.')
     ? resolve(root, moduleId)
     : isAbsolute(moduleId)
-    ? moduleId
-    : Require.resolve(moduleId);
+      ? moduleId
+      : Require.resolve(moduleId);
 }
 
 function isReachable(moduleId) {
@@ -83,12 +83,12 @@ function haveLocalDependencies(name) {
 }
 
 module.exports = {
+  getPkg,
   haveDependencies,
   haveDevDependencies,
   haveLocalDependencies,
-  normalizePath,
   isReachable,
+  normalizePath,
   reaching,
-  getPkg,
   readJson,
 };

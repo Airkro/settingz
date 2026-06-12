@@ -1,7 +1,7 @@
-import { readFileSync, statSync } from 'fs';
-import { createRequire } from 'module';
-import { isAbsolute, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { readFileSync, statSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { isAbsolute, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const CWD = process.cwd();
 
@@ -19,8 +19,8 @@ function normalizePath(moduleId, root = CWD) {
   return moduleId.startsWith('.')
     ? resolve(root, moduleId)
     : isAbsolute(moduleId)
-    ? moduleId
-    : Require.resolve(moduleId);
+      ? moduleId
+      : Require.resolve(moduleId);
 }
 
 function isReachable(moduleId) {

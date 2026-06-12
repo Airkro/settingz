@@ -1,0 +1,7 @@
+configDependencies:
+  pnpm-plugin-nice-move: 0.3.5+sha512-GCIOMaitJFiSwi3diByPwKitZHgssXMS0QtyMz5zdr/2MuLymwUve00OEwd1ZvyentUTBzL98v5kyLfQ4ZuXUQ==
+
+shamefullyHoist: true
+
+trustPolicyExclude:
+  - semver@6.3.1

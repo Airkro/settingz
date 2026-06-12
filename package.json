@@ -4,8 +4,7 @@
   "description": "Dead simple config loader",
   "license": "MIT",
   "author": {
-    "name": "Eric",
-    "email": "airkro@qq.com"
+    "name": "Eric Chen"
   },
   "keywords": [
     "config",
@@ -15,7 +14,7 @@
   "homepage": "https://github.com/airkro/settingz",
   "repository": {
     "type": "git",
-    "url": "https://github.com/airkro/settingz.git"
+    "url": "git+https://github.com/airkro/settingz.git"
   },
   "bugs": {
     "url": "https://github.com/airkro/settingz/issues"
@@ -32,20 +31,25 @@
   "files": [
     "index.mjs"
   ],
+  "type": "module",
   "scripts": {
+    "lint:eslint": "eslint . --quiet --fix --concurrency=auto",
     "lint:staged": "nice-move lint staged",
-    "prepare": "git config core.hooksPath .githooks"
+    "lint:type": "tsc -p tsconfig.json",
+    "prepare": "nice-move git hooks"
   },
   "devDependencies": {
-    "@nice-move/cli": "^0.7.2",
-    "@nice-move/eslint-config-base": "^0.6.9",
-    "@nice-move/prettier-config": "^0.5.4",
-    "eslint": "^8.14.0",
-    "garou": "^0.4.6",
-    "prettier": "^2.6.2"
+    "@bring-it/npm": "^0.9.3",
+    "@nice-move/all-in-base": "^0.8.6",
+    "eslint": "^9.39.4",
+    "garou": "^0.9.21",
+    "prettier": "~3.8.4",
+    "typescript": "~6.0.3"
   },
+  "packageManager": "pnpm@10.33.2",
   "engines": {
-    "node": "^12.22.0 || ^14.17.0 || ^16.13.0 || >=18.0.0"
+    "node": ">=18.0.0 || ^12.22.0 || ^14.17.0 || ^16.13.0",
+    "pnpm": "^10.33.2"
   },
   "publishConfig": {
     "access": "public",
